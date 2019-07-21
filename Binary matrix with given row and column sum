@@ -1,0 +1,73 @@
+#Change the input as you want 
+
+def prim(matrix):
+    for i in matrix:
+        for j in i:
+            print(j,end=" ")
+        print()
+
+    print("\n")
+def FindMatrix(rows,cols,r,c,m,n,matrix):
+    count=0
+    if(rows[r]>0 and cols[c]>0):
+        matrix[r][c]=1
+        rows[r]-=1
+        cols[c]-=1
+        if(r==m-1) and (cols[c]!=0):
+            matrix[r][c]=0
+            rows[r]+=1
+            cols[c]+=1
+            return 0
+        if(c==n-1) and(rows[r]!=0):
+            matrix[r][c]=0
+            rows[r]+=1
+            cols[c]+=1
+            return 0
+        cc=c
+        rr=r
+        if(cc<n-1):
+            cc+=1
+        else:
+            cc=0
+            if(rr<m-1):
+                rr+=1
+            else:
+                prim(matrix)
+                matrix[r][c]=0
+                rows[r]+=1
+                cols[c]+=1
+                return 1
+        count=FindMatrix(rows,cols,rr,cc,m,n,matrix)
+        matrix[r][c]=0
+        rows[r]+=1
+        cols[c]+=1
+        if(r==m-1 or c==n-1):
+            return count
+    if(r==m-1) and(cols[c]!=0):
+        return 0
+    if(c==n-1) and(rows[r]!=0):
+        return 0
+    cc=c
+    rr=r
+    if(cc<n-1):
+        cc+=1
+    else:
+        cc=0
+        if(rr<m-1):
+            rr+=1
+        else:
+            prim(matrix)
+            return 1
+    return count+FindMatrix(rows,cols,rr,cc,m,n,matrix)
+
+m=4
+n=4
+rows=[1,1,1,1]
+cols=[1,1,1,1]
+matrix=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+#m=3
+#n=3
+#rows=[3,2,3]
+#cols=[3,3,2]
+#matrix=[[0,0,0],[0,0,0],[0,0,0]]
+print(FindMatrix(rows,cols,0,0,m,n,matrix))
